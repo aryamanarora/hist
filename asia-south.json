@@ -1,0 +1,36 @@
+{
+
+"Delhi": {
+  "wiki": "Delhi",
+  "data": [
+    ["800-01-01", "Tomara dynasty", 2],
+    ["1180-01-01", "Chauhans of Sambar", 2],
+    ["1192-01-01", "Ghurid Sultanate", 1],
+    ["1206-06-12", "Delhi Sultanate", 1],
+    ["1526-04-21", "Mughal Empire", 1],
+    ["1540-05-17", "Sur Empire", 1],
+    ["1556-10-07", "Hemu", 1],
+    ["1556-11-05", "Mughal Empire", 1],
+    ["1857-09-21", "British Raj", 1],
+    ["1947-08-15", "India", 1]
+  ]
+},
+"Kolkata": {
+  "wiki": "Mumbai",
+  "data": [
+    ["1690-01-01", "East India Company", 1],
+    ["1857-06-28", "British Raj", 1],
+    ["1947-08-15", "India", 1]
+  ]
+},
+"Mumbai": {
+  "wiki": "Mumbai",
+  "data": [
+    ["1535-10-25", "Portugal", 3],
+    ["1661-05-11", "England", 2],
+    ["1668-03-27", "East India Company", 1]
+    ["1858-06-28", "British Raj", 1]
+    ["1947-08-15", "India", 1]
+  ]
+}
+}
