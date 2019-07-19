@@ -1,5 +1,16 @@
 {
-
+"Bengaluru": {
+  "wiki": "Bangalore",
+  "data": [
+    ["1537-01-01", "Vijayanagara Empire", 2],
+    ["1565-01-01", "Kempe Gowda", 1],
+    ["1638-01-01", "Bijapur Sultanate", 1],
+    ["1687-01-01", "Kingdom of Mysore", 1],
+    ["1791-03-21", "East India Company", 1],
+    ["1799-05-04", "Kingdom of Mysore", 1],
+    ["1947-08-15", "India", 1]
+  ]
+},
 "Delhi": {
   "wiki": "Delhi",
   "data": [
@@ -13,6 +24,15 @@
     ["1556-11-05", "Mughal Empire", 1],
     ["1857-09-21", "British Raj", 1],
     ["1947-08-15", "India", 1]
+  ]
+},
+"Hyderabad": {
+  "wiki": "Hyderabad",
+  "data": [
+    ["1591-01-01", "Golkonda Sultanate", 1],
+    ["1687-09-21", "Mughal Empire", 1],
+    ["1724-01-01", "Hyderabad State", 1],
+    ["1948-09-18", "India", 1],
   ]
 },
 "Kolkata": {
