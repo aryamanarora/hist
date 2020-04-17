@@ -33,9 +33,6 @@ var zoom = d3.zoom()
 svg.call(zoom)
 svg.on("click", unzoomed)
 
-var voronoi = d3.voronoi()
-    .extent([[0, 0], [width, height]])
-
 var stringToColour = function(str) {
     var hash = 0
     for (var i = 0; i < str.length; i++) {
@@ -83,11 +80,11 @@ var tooltip = d3.select("body").append("div")
     .attr("class", "tooltip")
     .style("opacity", 0)
 
+var c = null
 function load(world, hist, cities, countries) {
     // console.log(cities)
     // console.log(countries)
     topo = topojson.feature(world, world.objects.land).features
-    c = hist
 
     var defs = svg.append("defs")
     defs.selectAll("path")
@@ -125,30 +122,33 @@ function load(world, hist, cities, countries) {
             }
             if (!country) return
             cities_cur.push([
-                projection([cities[city.id].lon, cities[city.id].lat])[0],
-                projection([cities[city.id].lon, cities[city.id].lat])[1],
+                cities[city.id].lon,
+                cities[city.id].lat,
                 city.id,
                 cities[city.id].name,
                 countries[country].name
             ])
         });
 
+        var voronoi = d3.geoVoronoi()(cities_cur)
+
         var shapes = g.append("g")
             .attr("mask", "url(#clip)")
             .selectAll("path")
-            .data(voronoi.polygons(cities_cur))
+            .data(voronoi.polygons().features)
             .enter()
                 .append("path")
-                .attr("d", function(d) {return d ? "M" + d.join("L") + "Z" : null})
-                .attr("id", d => d ? "id" + d.data[2] : null)
-                .attr("fill", d => d ? stringToColour(d.data[4]) : null)
-                .attr("stroke", d => d ? stringToColour(d.data[4]) : null)
+                .attr("d", path)
+                .attr("id", d => d ? "id" + d.properties.site[2] : null)
+                .attr("fill", d => d ? stringToColour(d.properties.site[4]) : null)
+                .attr("stroke-width", 1)
+                .attr("stroke", d => d ? stringToColour(d.properties.site[4]) : null)
                 .on("mouseover", function(d) {
                     if (d) {
-                        d3.selectAll("#id" + d.data[2])
+                        d3.selectAll("#id" + d.properties.site[2])
                             .style("opacity", 0.5)
                         tooltip.style("opacity", 1)
-                            .html(d.data[3] + "<br><strong>" + d.data[4] + "</strong>")
+                            .html(d.properties.site[3] + "<br><strong>" + d.properties.site[4] + "</strong>")
                             .style("left", (d3.event.pageX + 15) + "px")
                             .style("top", (d3.event.pageY - 28) + "px")
                     }
@@ -160,7 +160,7 @@ function load(world, hist, cities, countries) {
                 })
                 .on("mouseout", function(d) {
                     if (d) {
-                        d3.selectAll("#id" + d.data[2])
+                        d3.selectAll("#id" + d.properties.site[2])
                             .transition()
                             .duration(250)
                             .style("opacity", 1)
@@ -176,8 +176,8 @@ function load(world, hist, cities, countries) {
             .append("circle")
                 .attr("class", "city")
                 .attr("r", 2.5)
-                .attr("cx", function(d) {return d[0]})
-                .attr("cy", function(d) {return d[1]})
+                .attr("cx", function(d) {return projection([d[0], d[1]])[0]})
+                .attr("cy", function(d) {return projection([d[0], d[1]])[1]})
                 .attr("id", d => "id" + d[2])
                 .style("fill", "red")
     }
