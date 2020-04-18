@@ -71,17 +71,44 @@ date_indicator.on("mouseover", function (d) {
         .attr("id", "current-date")
         .text(today.format("dddd, MMMM Do, YYYY"))
 
-var date_input = date_indicator.append("input")
-    .attr("type", "date")
-    .attr("max", today.format("YYYY-MM-DD"))
-    .style("margin", "0px 10px 10px 10px")
-
 var tooltip = d3.select("body").append("div")
     .attr("class", "tooltip")
     .style("opacity", 0)
 
 var c = null
 function load(world, hist, cities, countries) {
+    var year_change = date_indicator.append("div")
+        .attr("class", "btn-group")
+        .attr("role", "group")
+        .style("margin", "0px 10px 10px 10px")
+    year_change.append("button")
+        .attr("type", "button")
+        .attr("class", "btn btn-primary")
+        .text("◀◀")
+        .on("click", function(d) {
+            update(today.subtract(10, "years"))
+        })
+    year_change.append("button")
+        .attr("type", "button")
+        .attr("class", "btn btn-primary")
+        .text("◀")
+        .on("click", function(d) {
+            update(today.subtract(1, "years"))
+        })
+    year_change.append("button")
+        .attr("type", "button")
+        .attr("class", "btn btn-primary")
+        .text("►")
+        .on("click", function(d) {
+            update(today.add(1, "years"))
+        })
+    year_change.append("button")
+        .attr("type", "button")
+        .attr("class", "btn btn-primary")
+        .text("►►")
+        .on("click", function(d) {
+            update(today.add(10, "years"))
+        })
     // console.log(cities)
     // console.log(countries)
     topo = topojson.feature(world, world.objects.land).features
@@ -100,15 +127,11 @@ function load(world, hist, cities, countries) {
         
     mask.append("use")
         .attr("xlink:href", "#land")
-
-    date_input.on("change", function(d) {
-        today = moment.utc(this.value)
-        update(today)
-        d3.select("#current-date")
-            .text(today.format("dddd, MMMM Do, YYYY"))
-    })
     
     function update(date) {
+        today = moment.utc(date)
+        d3.select("#current-date")
+            .text(today.format("dddd, MMMM Do, YYYY"))
         g.selectAll("*").remove()
         var cities_cur = []
         hist.forEach(city => {
