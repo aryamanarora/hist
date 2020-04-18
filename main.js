@@ -14,8 +14,10 @@ var projection = d3.geoEqualEarth()
 var path = d3.geoPath()
     .projection(projection)
 
+var scale = 1
 function zoomed() {
     g.attr("transform", d3.event.transform)
+    scale = d3.event.transform.k
     d3.selectAll(".city")
         .attr("r", 2.5 / d3.event.transform.k)
 }
@@ -144,6 +146,7 @@ function load(world, hist, cities, countries) {
                 }
             }
             if (!country) return
+            console.log(cities[city.id])
             cities_cur.push([
                 cities[city.id].lon,
                 cities[city.id].lat,
@@ -198,7 +201,7 @@ function load(world, hist, cities, countries) {
             .enter()
             .append("circle")
                 .attr("class", "city")
-                .attr("r", 2.5)
+                .attr("r", 2.5 / scale)
                 .attr("cx", function(d) {return projection([d[0], d[1]])[0]})
                 .attr("cy", function(d) {return projection([d[0], d[1]])[1]})
                 .attr("id", d => "id" + d[2])
